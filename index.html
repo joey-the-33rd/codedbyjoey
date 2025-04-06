@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joseph Ndungu | Full-Stack Developer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #1e293b;
+            --accent: #f59e0b;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --bg: #ffffff;
+            --text: #1e293b;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --secondary: #e2e8f0;
+            --accent: #f59e0b;
+            --light: #1e293b;
+            --dark: #f8fafc;
+            --bg: #0f172a;
+            --text: #e2e8f0;
+            --card-bg: #1e293b;
+            --border: #334155;
+        }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            transition: var(--transition);
+        }
+        
+        header {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 3rem;
+            transition: var(--transition);
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--secondary);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .contact-bar {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .contact-bar a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .contact-bar a:hover {
+            color: var(--accent);
+        }
+        
+        section {
+            margin-bottom: 4rem;
+        }
+        
+        h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+        
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        
+        .projects-grid, .blog-grid, .services-grid, .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project-card, .blog-card, .service-card, .testimonial-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: var(--transition);
+            background: var(--card-bg);
+        }
+        
+        .project-card:hover, .blog-card:hover, .service-card:hover, .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        
+        .project-image, .blog-image, .testimonial-image {
+            height: 200px;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-image img, .blog-image img, .testimonial-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .project-content, .blog-content, .service-content, .testimonial-content {
+            padding: 1.5rem;
+        }
+        
+        .tech-tag, .blog-tag, .filter-tag {
+            display: inline-block;
+            background: var(--light);
+            color: var(--dark);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .filter-tag.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+        
+        .theme-icon {
+            transition: var(--transition);
+            transform-origin: center;
+        }
+        
+        [data-theme="dark"] .theme-icon.sun {
+            transform: rotate(90deg);
+            opacity: 0;
+        }
+        
+        [data-theme="light"] .theme-icon.moon {
+            transform: rotate(-90deg);
+            opacity: 0;
+        }
+        
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            transition: var(--transition);
+        }
+        
+        .language-toggle:hover {
+            transform: scale(1.05);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .contact-form, .newsletter-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .contact-form input,
+        .contact-form textarea,
+        .contact-form select,
+        .newsletter-form input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            background: var(--card-bg);
+            color: var(--text);
+            transition: var(--transition);
+        }
+        
+        .contact-form input:focus,
+        .contact-form textarea:focus,
+        .contact-form select:focus,
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+        
+        .contact-form textarea {
+            grid-column: span 2;
+            min-height: 150px;
+        }
+        
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        
+        .service-card .price {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+        
+        .service-features {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .service-features li {
+            padding: 0.3rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .service-features li:before {
+            content: "✓";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+        
+        /* Skill meter styles */
+        .skill-meter {
+            margin: 1rem 0;
+        }
+        
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.3rem;
+        }
+        
+        .skill-bar {
+            height: 10px;
+            background-color: var(--light);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .skill-level {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 5px;
+            transition: width 1s ease-in-out;
+        }
+        
+        /* Timeline styles */
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--primary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--bg);
+            border: 4px solid var(--primary);
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+        
+        .left {
+            left: 0;
+            text-align: right;
+        }
+        
+        .right {
+            left: 50%;
+            text-align: left;
+        }
+        
+        .left::after {
+            right: -12px;
+        }
+        
+        .right::after {
+            left: -12px;
+        }
+        
+        .timeline-content {
+            padding: 1.5rem;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .timeline-title {
+            margin: 0.5rem 0;
+        }
+        
+        /* CV Template styles */
+        .cv-template {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .cv-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .cv-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .cv-section-title {
+            color: var(--primary);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cv-download {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        /* Testimonial styles */
+        .testimonial-card {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .testimonial-image {
+            height: 120px;
+            width: 120px;
+            border-radius: 50%;
+            margin: 1.5rem auto 0;
+            border: 4px solid var(--primary);
+        }
+        
+        .testimonial-content {
+            text-align: center;
+        }
+        
+        .testimonial-quote {
+            font-style: italic;
+            position: relative;
+        }
+        
+        .testimonial-quote:before,
+        .testimonial-quote:after {
+            content: '"';
+            font-size: 2rem;
+            color: var(--primary);
+            opacity: 0.3;
+            position: absolute;
+        }
+        
+        .testimonial-quote:before {
+            top: -10px;
+            left: -10px;
+        }
+        
+        .testimonial-quote:after {
+            bottom: -20px;
+            right: -10px;
+        }
+        
+        .testimonial-author {
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+        
+        .testimonial-role {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        
+        /* Project filter styles */
+        .project-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* GitHub activity styles */
+        .github-activity {
+            margin-top: 2rem;
+        }
+        
+        .github-event {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+        }
+        
+        .github-event:last-child {
+            border-bottom: none;
+        }
+        
+        .github-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .github-event-type {
+            font-size: 0.8rem;
+            color: var(--primary);
+        }
+        
+        .github-repo {
+            font-weight: bold;
+        }
+        
+        .github-time {
+            font-size: 0.8rem;
+            color: var(--text);
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .skills-container, .projects-grid, .blog-grid, .services-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-form, .newsletter-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-form textarea,
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 21px;
+            }
+            
+            .left, .right {
+                left: 0;
+                text-align: left;
+            }
+            
+            .left::after {
+                right: auto;
+                left: -12px;
+            }
+            
+            .theme-toggle, .language-toggle {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle">
+        <span class="theme-icon sun">☀️</span>
+        <span class="theme-icon moon">🌙</span>
+        <span id="themeText">Toggle Dark Mode</span>
+    </button>
+    
+    <button class="language-toggle" id="languageToggle">🇬🇧/🇰🇪 Switch Language</button>
+
+    <header>
+        <h1 id="name">Joseph Ndungu</h1>
+        <p class="tagline" id="tagline">Full-Stack Developer & DevOps Engineer from Nairobi, Kenya</p>
+        <div class="contact-bar">
+            <a href="mailto:jothefu@gmail.com">✉️ jothefu@gmail.com</a>
+            <a href="https://twitter.com/JothefuN">🐦 @JothefuN</a>
+            <a href="https://linkedin.com/in/joseph-ndungu">🔗 LinkedIn</a>
+            <a href="#" id="pdfLink" class="btn">📄 Download PDF</a>
+        </div>
+    </header>
+
+    <section id="about">
+        <h2 id="aboutTitle">👋 About Me</h2>
+        <p id="aboutText">I'm a Nairobi-based technologist with expertise in full-stack development, cloud architecture, and AI solutions. With a background in statistics and digital marketing, I bridge technical implementation with business value. Passionate about building tools that solve Africa's unique challenges.</p>
+        
+        <div class="card" style="margin-top: 2rem;">
+            <h3>📊 Skills Proficiency</h3>
+            <div class="skill-meter">
+                <div class="skill-info">
+                    <span>Python/Django</span>
+                    <span>90%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-level" style="width: 90%;"></div>
+                </div>
+            </div>
+            
+            <div class="skill-meter">
+                <div class="skill-info">
+                    <span>JavaScript/React</span>
+                    <span>85%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-level" style="width: 85%;"></div>
+                </div>
+            </div>
+            
+            <div class="skill-meter">
+                <div class="skill-info">
+                    <span>AWS Cloud</span>
+                    <span>80%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-level" style="width: 80%;"></div>
+                </div>
+            </div>
+            
+            <div class="skill-meter">
+                <div class="skill-info">
+                    <span>DevOps (CI/CD)</span>
+                    <span>88%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-level" style="width: 88%;"></div>
+                </div>
+            </div>
+            
+            <div class="skill-meter">
+                <div class="skill-info">
+                    <span>Data Analysis</span>
+                    <span>92%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-level" style="width: 92%;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2 id="skillsTitle">🛠️ Technical Skills</h2>
+        <div class="skills-container">
+            <div class="card">
+                <h3>💻 Frontend Development</h3>
+                <p>React, Next.js, TypeScript, Flutter, Swift, Kotlin, HTML5/CSS3, Tailwind CSS</p>
+            </div>
+            <div class="card">
+                <h3>⚙️ Backend Development</h3>
+                <p>Python (Django/Flask), Node.js, Java, C#, Go, PHP, REST APIs, GraphQL</p>
+            </div>
+            <div class="card">
+                <h3>☁️ Cloud & DevOps</h3>
+                <p>AWS, GCP, Docker, Kubernetes, Terraform, CI/CD (GitHub Actions, ArgoCD)</p>
+            </div>
+            <div class="card">
+                <h3>📊 Data & AI</h3>
+                <p>TensorFlow, PyTorch, Pandas, SQL/NoSQL, Google Analytics, Data Studio</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2 id="experienceTitle">⏳ Experience Timeline</h2>
+        <div class="timeline">
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-date">2024 - Present</div>
+                    <h3 class="timeline-title">DevOps Engineer</h3>
+                    <h4>Dolphine Tech Lab</h4>
+                    <p id="exp1-1">Reduced cloud infrastructure costs by 30% through Kubernetes optimization</p>
+                    <p id="exp1-2">Implemented secure CI/CD pipelines using GitHub Actions and ArgoCD</p>
+                </div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-date">2023 - Present</div>
+                    <h3 class="timeline-title">Digital Marketing Specialist</h3>
+                    <h4>360 Marketing Lens</h4>
+                    <p id="exp2-1">Boosted client conversion rates by 45% through data-driven campaigns</p>
+                    <p id="exp2-2">Developed predictive models for customer behavior analysis</p>
+                </div>
+            </div>
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-date">2011 - 2019</div>
+                    <h3 class="timeline-title">Marketing Research Analyst</h3>
+                    <h4>Kelele Farm PR.</h4>
+                    <p>Conducted market analysis and consumer behavior studies</p>
+                    <p>Designed statistical models to forecast agricultural trends</p>
+                </div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-date">2008 - 2010</div>
+                    <h3 class="timeline-title">Network Administrator</h3>
+                    <h4>DigiMatri Tech</h4>
+                    <p>Managed IT infrastructure and resolved network security issues</p>
+                </div>
+            </div>
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-date">2004 - 2006</div>
+                    <h3 class="timeline-title">Data Analyst</h3>
+                    <h4>U.N. W.F.P.</h4>
+                    <p>Analyzed humanitarian data to support decision-making</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 id="projectsTitle">🚀 Featured Projects</h2>
+        
+        <div class="project-filters">
+            <span class="filter-tag active" data-filter="all">All</span>
+            <span class="filter-tag" data-filter="web">Web Development</span>
+            <span class="filter-tag" data-filter="ai">AI/ML</span>
+            <span class="filter-tag" data-filter="devops">DevOps</span>
+            <span class="filter-tag" data-filter="marketing">Marketing</span>
+        </div>
+        
+        <div class="projects-grid">
+            <div class="project-card" data-category="ai">
+                <div class="project-image">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="AgriAI Platform">
+                    <div style="position: absolute; background: rgba(0,0,0,0.7); color: white; padding: 0.5rem 1rem; border-radius: 5px;">🌦️ AgriAI Platform</div>
+                </div>
+                <div class="project-content">
+                    <h3 id="project1Title">AI Weather Predictor for Kenyan Farmers</h3>
+                    <p id="project1Desc">Machine learning system providing accurate weather forecasts to 10,000+ farmers, improving crop planning.</p>
+                    <div>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">TensorFlow</span>
+                        <span class="tech-tag">AWS</span>
+                        <span class="tech-tag">Flask</span>
+                    </div>
+                    <a href="#" class="btn">View Project</a>
+                </div>
+            </div>
+            
+            <div class="project-card" data-category="devops">
+                <div class="project-image">
+                    <img src="https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="DevOps Pipeline">
+                    <div style="position: absolute; background: rgba(0,0,0,0.7); color: white; padding: 0.5rem 1rem; border-radius: 5px;">⚡ CI/CD Automation</div>
+                </div>
+                <div class="project-content">
+                    <h3 id="project2Title">DevOps Pipeline Optimization</h3>
+                    <p id="project2Desc">Implemented automated deployment system reducing release times from 2 hours to 15 minutes.</p>
+                    <div>
+                        <span class="tech-tag">GitHub Actions</span>
+                        <span class="tech-tag">Terraform</span>
+                        <span class="tech-tag">Kubernetes</span>
+                        <span class="tech-tag">ArgoCD</span>
+                    </div>
+                    <a href="#" class="btn">View Project</a>
+                </div>
+            </div>
+            
+            <div class="project-card" data-category="web">
+                <div class="project-image">
+                    <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="E-Commerce Platform">
+                    <div style="position: absolute; background: rgba(0,0,0,0.7); color: white; padding: 0.5rem 1rem; border-radius: 5px;">🛒 E-Commerce Platform</div>
+                </div>
+                <div class="project-content">
+                    <h3 id="project3Title">Scalable Microservices Store</h3>
+                    <p id="project3Desc">Full-stack e-commerce solution handling 50,000+ monthly transactions with secure payments.</p>
+                    <div>
+                        <span class="tech-tag">Next.js</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Stripe</span>
+                    </div>
+                    <a href="#" class="btn">View Project</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="github">
+        <h2><i class="fab fa-github"></i> GitHub Activity</h2>
+        <div class="card github-activity" id="githubActivity">
+            <!-- Will be populated by JavaScript -->
+            <div class="github-event">
+                <img src="https://via.placeholder.com/40" alt="GitHub Avatar" class="github-avatar">
+                <div>
+                    <div class="github-event-type">Pushed to</div>
+                    <div class="github-repo">AgriAI-Weather-Predictor</div>
+                    <div class="github-time">2 hours ago</div>
+                </div>
+            </div>
+            <div class="github-event">
+                <img src="https://via.placeholder.com/40" alt="GitHub Avatar" class="github-avatar">
+                <div>
+                    <div class="github-event-type">Created repository</div>
+                    <div class="github-repo">kenya-farmers-app</div>
+                    <div class="github-time">1 day ago</div>
+                </div>
+            </div>
+            <div class="github-event">
+                <img src="https://via.placeholder.com/40" alt="GitHub Avatar" class="github-avatar">
+                <div>
+                    <div class="github-event-type">Opened issue</div>
+                    <div class="github-repo">devops-pipeline</div>
+                    <div class="github-time">3 days ago</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials">
+        <h2 id="testimonialsTitle">🌟 Client Testimonials</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-image">
+                    <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Sarah K.">
+                </div>
+                <div class="testimonial-content">
+                    <p class="testimonial-quote" id="testimonial1">Joseph transformed our agricultural analytics platform with his AI expertise. The weather prediction system he built has improved our crop yields by 22%.</p>
+                    <div class="testimonial-author">Sarah K.</div>
+                    <div class="testimonial-role">CEO, AgriTech Solutions</div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-image">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="David M.">
+                </div>
+                <div class="testimonial-content">
+                    <p class="testimonial-quote" id="testimonial2">The DevOps pipeline Joseph implemented reduced our deployment times from hours to minutes. His cloud architecture skills are exceptional.</p>
+                    <div class="testimonial-author">David M.</div>
+                    <div class="testimonial-role">CTO, FinTech Innovations</div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-image">
+                    <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Amina J.">
+                </div>
+                <div class="testimonial-content">
+                    <p class="testimonial-quote" id="testimonial3">Joseph's data visualization dashboard gave us insights we never had before. His ability to bridge technical and business needs is remarkable.</p>
+                    <div class="testimonial-author">Amina J.</div>
+                    <div class="testimonial-role">Marketing Director, 360 Insights</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <h2 id="servicesTitle">💼 Services & Rates</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-content">
+                    <h3>🚀 Full-Stack Development</h3>
+                    <div class="price">$75/hour</div>
+                    <ul class="service-features">
+                        <li id="service1-1">Custom web application development</li>
+                        <li id="service1-2">API design and implementation</li>
+                        <li id="service1-3">Database architecture</li>
+                        <li id="service1-4">Cross-platform solutions</li>
+                    </ul>
+                    <a href="#contact" class="btn">Hire Me</a>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-content">
+                    <h3>☁️ Cloud & DevOps</h3>
+                    <div class="price">$90/hour</div>
+                    <ul class="service-features">
+                        <li id="service2-1">CI/CD pipeline setup</li>
+                        <li id="service2-2">Cloud infrastructure design</li>
+                        <li id="service2-3">Containerization & orchestration</li>
+                        <li id="service2-4">Performance optimization</li>
+                    </ul>
+                    <a href="#contact" class="btn">Hire Me</a>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-content">
+                    <h3>📈 Digital Marketing Tech</h3>
+                    <div class="price">$60/hour</div>
+                    <ul class="service-features">
+                        <li id="service3-1">Marketing analytics setup</li>
+                        <li id="service3-2">Data visualization</li>
+                        <li id="service3-3">Campaign tracking systems</li>
+                        <li id="service3-4">Automation tools</li>
+                    </ul>
+                    <a href="#contact" class="btn">Hire Me</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cv-template">
+        <h2 id="cvTitle">📝 Professional CV Template</h2>
+        <div class="cv-template">
+            <div class="cv-header">
+                <h1>Joseph Ndungu</h1>
+                <p>Full-Stack Developer & DevOps Engineer</p>
+                <p>Nairobi, Kenya | jothefu@gmail.com | +254 7XX XXX XXX</p>
+            </div>
+            
+            <div class="cv-section">
+                <h3 class="cv-section-title">Professional Summary</h3>
+                <p>Innovative technologist with 7+ years of experience in full-stack development, cloud architecture, and AI solutions. Proven track record of building scalable systems that solve real-world problems in the African context.</p>
+            </div>
+            
+            <div class="cv-section">
+                <h3 class="cv-section-title">Technical Skills</h3>
+                <ul>
+                    <li><strong>Languages:</strong> Python, JavaScript/TypeScript, Java, C#, Go</li>
+                    <li><strong>Frameworks:</strong> Django, React, Node.js, TensorFlow</li>
+                    <li><strong>Cloud/DevOps:</strong> AWS, GCP, Docker, Kubernetes, Terraform</li>
+                    <li><strong>Data:</strong> SQL, NoSQL, Pandas, Data Visualization</li>
+                </ul>
+            </div>
+            
+            <div class="cv-section">
+                <h3 class="cv-section-title">Professional Experience</h3>
+                <h4>DevOps Engineer - Dolphine Tech Lab (2024-Present)</h4>
+                <ul>
+                    <li>Reduced cloud costs by 30% through infrastructure optimization</li>
+                    <li>Implemented CI/CD pipelines reducing deployment times by 85%</li>
+                </ul>
+                
+                <h4>Digital Marketing Specialist - 360 Marketing Lens (2023-Present)</h4>
+                <ul>
+                    <li>Increased client conversion rates by 45% through data-driven strategies</li>
+                </ul>
+            </div>
+            
+            <div class="cv-section">
+                <h3 class="cv-section-title">Education</h3>
+                <h4>B.Sc in Statistics - University of Nairobi (2003)</h4>
+                <h4>Google Cloud Professional Certification (2021)</h4>
+            </div>
+            
+            <div class="cv-download">
+                <a href="#" id="cvDownload" class="btn">📄 Download CV Template (Word)</a>
+                <a href="#" id="cvDownloadPdf" class="btn">📄 Download CV Template (PDF)</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="blog">
+        <h2 id="blogTitle">✍️ Latest Articles</h2>
+        <div class="blog-grid">
+            <div class="blog-card">
+                <div class="blog-image">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="AI in Agriculture">
+                </div>
+                <div class="blog-content">
+                    <div>
+                        <span class="blog-tag">AI</span>
+                        <span class="blog-tag">Agriculture</span>
+                    </div>
+                    <h3 id="blog1Title">Transforming African Farming with AI</h3>
+                    <p id="blog1Desc">How machine learning is revolutionizing weather prediction for smallholder farmers in Kenya...</p>
+                    <a href="#" class="btn">Read More</a>
+                </div>
+            </div>
+            
+            <div class="blog-card">
+                <div class="blog-image">
+                    <img src="https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="DevOps">
+                </div>
+                <div class="blog-content">
+                    <div>
+                        <span class="blog-tag">DevOps</span>
+                        <span class="blog-tag">Cloud</span>
+                    </div>
+                    <h3 id="blog2Title">Cost-Effective Cloud for African Startups</h3>
+                    <p id="blog2Desc">Strategies we've used to reduce AWS bills by 40% while maintaining performance...</p>
+                    <a href="#" class="btn">Read More</a>
+                </div>
+            </div>
+            
+            <div class="blog-card">
+                <div class="blog-image">
+                    <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="E-Commerce">
+                </div>
+                <div class="blog-content">
+                    <div>
+                        <span class="blog-tag">E-Commerce</span>
+                        <span class="blog-tag">Next.js</span>
+                    </div>
+                    <h3 id="blog3Title">Building for Africa's Mobile-First Market</h3>
+                    <p id="blog3Desc">Why we chose React Native for our pan-African e-commerce platform...</p>
+                    <a href="#" class="btn">Read More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="newsletter">
+        <h2 id="newsletterTitle">📩 Subscribe to My Newsletter</h2>
+        <div class="card">
+            <p id="newsletterText">Get monthly updates on tech trends, my latest projects, and exclusive content about software development in Africa.</p>
+            <form class="newsletter-form" id="newsletterForm">
+                <div class="form-group">
+                    <input type="text" id="newsletterName" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="newsletterEmail" placeholder="Your Email" required>
+                </div>
+                <div class="form-group full-width">
+                    <select id="newsletterInterest">
+                        <option value="">What interests you most?</option>
+                        <option value="webdev">Web Development</option>
+                        <option value="devops">DevOps & Cloud</option>
+                        <option value="ai">AI & Machine Learning</option>
+                        <option value="marketing">Tech in Marketing</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <button type="submit" class="btn">Subscribe</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 id="contactTitle">📬 Get In Touch</h2>
+        <form class="contact-form" id="contactForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="nameInput" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="emailInput" required>
+            </div>
+            <div class="form-group full-width">
+                <label for="subject">Subject</label>
+                <input type="text" id="subjectInput" required>
+            </div>
+            <div class="form-group full-width">
+                <label for="message">Message</label>
+                <textarea id="messageInput" required></textarea>
+            </div>
+            <div class="form-group full-width">
+                <label for="service">Service Interested In</label>
+                <select id="serviceInput">
+                    <option value="">Select a service</option>
+                    <option value="fullstack">Full-Stack Development</option>
+                    <option value="devops">Cloud & DevOps</option>
+                    <option value="marketing">Digital Marketing Tech</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group full-width">
+                <button type="submit" class="btn">Send Message</button>
+            </div>
+        </form>
+    </section>
+
+      
+
+    <footer>
+        <p id="footerText">Let's build something amazing together!</p>
+        <div style="margin-top: 1rem;">
+            <a href="mailto:jothefu@gmail.com" style="margin-right: 1rem;">✉️ Email</a>
+            <a href="https://github.com/yourusername" style="margin-right: 1rem;">💻 GitHub</a>
+            <a href="https://linkedin.com/in/joseph-ndungu">🔗 LinkedIn</a>
+        </div>
+        <p style="margin-top: 1rem;">© 2023 Joseph Ndungu. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Dark mode toggle with animation
+        const themeToggle = document.getElementById('themeToggle');
+        const themeText = document.getElementById('themeText');
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            themeText.textContent = newTheme === 'light' ? 'Toggle Dark Mode' : 'Toggle Light Mode';
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeText.textContent = 'Toggle Light Mode';
+        }
+
+        // Language toggle (English/Swahili)
+        const languageToggle = document.getElementById('languageToggle');
+        const translations = {
+            en: {
+                name: "Joseph Ndungu",
+                tagline: "Full-Stack Developer & DevOps Engineer from Nairobi, Kenya",
+                aboutTitle: "👋 About Me",
+                aboutText: "I'm a Nairobi-based technologist with expertise in full-stack development, cloud architecture, and AI solutions. With a background in statistics and digital marketing, I bridge technical implementation with business value. Passionate about building tools that solve Africa's unique challenges.",
+                skillsTitle: "🛠️ Technical Skills",
+                projectsTitle: "🚀 Featured Projects",
+                project1Title: "AI Weather Predictor for Kenyan Farmers",
+                project1Desc: "Machine learning system providing accurate weather forecasts to 10,000+ farmers, improving crop planning.",
+                project2Title: "DevOps Pipeline Optimization",
+                project2Desc: "Implemented automated deployment system reducing release times from 2 hours to 15 minutes.",
+                project3Title: "Scalable Microservices Store",
+                project3Desc: "Full-stack e-commerce solution handling 50,000+ monthly transactions with secure payments.",
+                servicesTitle: "💼 Services & Rates",
+                service1_1: "Custom web application development",
+                service1_2: "API design and implementation",
+                service1_3: "Database architecture",
+                service1_4: "Cross-platform solutions",
+                service2_1: "CI/CD pipeline setup",
+                service2_2: "Cloud infrastructure design",
+                service2_3: "Containerization & orchestration",
+                service2_4: "Performance optimization",
+                service3_1: "Marketing analytics setup",
+                service3_2: "Data visualization",
+                service3_3: "Campaign tracking systems",
+                service3_4: "Automation tools",
+                experienceTitle: "⏳ Experience Timeline",
+                exp1_1: "Reduced cloud infrastructure costs by 30% through Kubernetes optimization",
+                exp1_2: "Implemented secure CI/CD pipelines using GitHub Actions and ArgoCD",
+                exp2_1: "Boosted client conversion rates by 45% through data-driven campaigns",
+                exp2_2: "Developed predictive models for customer behavior analysis",
+                blogTitle: "✍️ Latest Articles",
+                blog1Title: "Transforming African Farming with AI",
+                blog1Desc: "How machine learning is revolutionizing weather prediction for smallholder farmers in Kenya...",
+                blog2Title: "Cost-Effective Cloud for African Startups",
+                blog2Desc: "Strategies we've used to reduce AWS bills by 40% while maintaining performance...",
+                blog3Title: "Building for Africa's Mobile-First Market",
+                blog3Desc: "Why we chose React Native for our pan-African e-commerce platform...",
+                cvTitle: "📝 Professional CV Template",
+                newsletterTitle: "📩 Subscribe to My Newsletter",
+                newsletterText: "Get monthly updates on tech trends, my latest projects, and exclusive content about software development in Africa.",
+                testimonialsTitle: "🌟 Client Testimonials",
+                testimonial1: "Joseph transformed our agricultural analytics platform with his AI expertise. The weather prediction system he built has improved our crop yields by 22%.",
+                testimonial2: "The DevOps pipeline Joseph implemented reduced our deployment times from hours to minutes. His cloud architecture skills are exceptional.",
+                testimonial3: "Joseph's data visualization dashboard gave us insights we never had before. His ability to bridge technical and business needs is remarkable.",
+                educationTitle: "🎓 Education & Certifications",
+                edu1: "🏛️ B.Sc Statistics | University of Nairobi",
+                certsTitle: "📜 Certifications:",
+                cert1: "Google Cloud Professional",
+                cert2: "Advanced Google Analytics",
+                cert3: "MS Data Visualization",
+                cert4: "AWS Certified Solutions Architect (in progress)",
+                contactTitle: "📬 Get In Touch",
+                footerText: "Let's build something amazing together!"
+            },
+            sw: {
+                name: "Joseph Ndungu",
+                tagline: "Mtaalamu wa Teknolojia kutoka Nairobi, Kenya",
+                aboutTitle: "👋 Kuhusu Mimi",
+                aboutText: "Mimi ni mtaalamu wa teknolojia kutoka Nairobi nina ujuzi wa maendeleo ya programu, usanifu wa mawingu, na suluhisho za AI. Nikiwa na mazingira ya takwimu na uuzaji wa kidijitali, ninajenga daraja kati ya utekelezaji wa kiufundi na thamani ya biashara. Nina shauku ya kujenga zana zinazokabili changamoto za Kiafrika.",
+                skillsTitle: "🛠️ Ujuzi wa Kiufundi",
+                projectsTitle: "🚀 Miradi Maarufu",
+                project1Title: "Mfumo wa Kutabiri Hali ya Hewa kwa Wakulima wa Kenya",
+                project1Desc: "Mfumo wa kielimu unaotoa utabiri sahihi wa hali ya hewa kwa wakulima zaidi ya 10,000, kuboresha mipango ya mazao.",
+                project2Title: "Uboreshaji wa Mfumo wa DevOps",
+                project2Desc: "Utekelezaji wa mfumo wa upakiaji otomatiki unaopunguza muda wa kutolewa kutoka saa 2 hadi dakika 15.",
+                project3Title: "Duka la Biashara Inayoweza Kukua",
+                project3Desc: "Suluhisho kamili la biashara ya mtandaoni inayoshughulikia shughuli zaidi ya 50,000 kwa mwezi kwa malipo salama.",
+                servicesTitle: "💼 Huduma na Bei",
+                service1_1: "Maendeleo ya programu maalum",
+                service1_2: "Usanifu na utekelezaji wa API",
+                service1_3: "Usanifu wa hifadhidata",
+                service1_4: "Suluhisho za njia mbalimbali",
+                service2_1: "Usanidi wa mifumo ya CI/CD",
+                service2_2: "Usanifu wa miundombinu ya mawingu",
+                service2_3: "Uwekaji ndani ya kontena na uratibu",
+                service2_4: "Uboreshaji wa utendaji",
+                service3_1: "Usanidi wa uchambuzi wa uuzaji",
+                service3_2: "Uwasilishaji wa data",
+                service3_3: "Mifumo ya kufuatilia kampeni",
+                service3_4: "Zana za kiotomatiki",
+                experienceTitle: "⏳ Muda wa Uzoefu",
+                exp1_1: "Kupunguza gharama za miundombinu ya mawingu kwa 30% kupitia uboreshaji wa Kubernetes",
+                exp1_2: "Kutelekeza mifumo salama ya CI/CD kwa kutumia GitHub Actions na ArgoCD",
+                exp2_1: "Kuongeza viwango vya uongofu wa wateja kwa 45% kupitia kampeni za data",
+                exp2_2: "Kuunda miundo ya kutabiri tabia za wateja",
+                blogTitle: "✍️ Makala ya Hivi Karibuni",
+                blog1Title: "Kubadilisha Ukulima wa Kiafrika kwa AI",
+                blog1Desc: "Jinsi ujuzi wa mashine unavyobadilisha utabiri wa hali ya hewa kwa wakulima wadogo wa Kenya...",
+                blog2Title: "Mawingu ya Gharama Nafuu kwa Vijana wa Kiafrika",
+                blog2Desc: "Mbinu tulizotumia kupunguza bili za AWS kwa 40% huku tukidumisha utendaji...",
+                blog3Title: "Kujenga kwa Soko la Kiafrika la Kwanza Simu",
+                blog3Desc: "Kwa nini tulichagua React Native kwa jukwaa letu la biashara ya mtandaoni barani Afrika...",
+                cvTitle: "📝 Kiolezo cha CV ya Kitaaluma",
+                newsletterTitle: "📩 Jiandikishe kwa Barua pepe yangu",
+                newsletterText: "Pata sasisho za kila mwezi kuhusu mienendo ya teknolojia, miradi yangu ya hivi karibuni, na maudhui ya kipekee kuhusu ukuzaji wa programu nchini Afrika.",
+                testimonialsTitle: "🌟 Ukaguzi wa Wateja",
+                testimonial1: "Joseph alibadilisha jukwaa letu la uchambuzi wa kilimo kwa ujuzi wake wa AI. Mfumo wa utabiri wa hali ya hewa aliyojenga umeongeza mavuno yetu ya mazao kwa 22%.",
+                testimonial2: "Mfumo wa DevOps uliowekwa na Joseph ulipunguza muda wetu wa upakiaji kutoka masaa hadi dakika. Ujuzi wake wa usanifu wa mawingu ni wa kipekee.",
+                testimonial3: "Dashibodi ya uwasilishaji data ya Joseph ilitupa ufahamu ambao hatukuwa nao awali. Uwezo wake wa kuunganisha mahitaji ya kiufundi na ya biashara ni wa kushangaza.",
+                educationTitle: "🎓 Elimu na Vyeti",
+                edu1: "🏛️ Shahada ya Kwanza ya Takwimu | Chuo Kikuu cha Nairobi",
+                certsTitle: "📜 Vyeti:",
+                cert1: "Google Cloud Professional",
+                cert2: "Advanced Google Analytics",
+                cert3: "MS Data Visualization",
+                cert4: "AWS Certified Solutions Architect (inafanyika)",
+                contactTitle: "📬 Wasiliana Nami",
+                footerText: "Tujenge kitu cha kuvutia pamoja!"
+            }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'en';
+        updateLanguage();
+        
+        languageToggle.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'sw' : 'en';
+            localStorage.setItem('lang', currentLang);
+            updateLanguage();
+            languageToggle.textContent = currentLang === 'en' ? '🇬🇧/🇰🇪 Swahili' : '🇬🇧/🇰🇪 English';
+        });
+
+        function updateLanguage() {
+            const langData = translations[currentLang];
+            for (const [key, value] of Object.entries(langData)) {
+                const element = document.getElementById(key);
+                if (element) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = value;
+                    } else {
+                        element.textContent = value;
+                    }
+                }
+            }
+        }
+
+        // Project filtering
+        const filterTags = document.querySelectorAll('.filter-tag');
+        const projectCards = document.querySelectorAll('.project-card');
+        
+        filterTags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                // Update active state
+                filterTags.forEach(t => t.classList.remove('active'));
+                tag.classList.add('active');
+                
+                const filter = tag.dataset.filter;
+                
+                // Filter projects
+                projectCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // GitHub Activity (simulated - replace with real API calls)
+        function fetchGitHubActivity() {
+            // In a real implementation, you would use:
+            // fetch('https://api.github.com/users/yourusername/events')
+            //   .then(response => response.json())
+            //   .then(data => displayGitHubActivity(data));
+            
+            // Simulated data
+            const simulatedEvents = [
+                {
+                    type: 'PushEvent',
+                    repo: { name: 'JosephNdungu/AgriAI-Weather-Predictor' },
+                    created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+                    actor: { avatar_url: 'https://avatars.githubusercontent.com/u/12345678?v=4' }
+                },
+                {
+                    type: 'CreateEvent',
+                    repo: { name: 'JosephNdungu/kenya-farmers-app' },
+                    created_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+                    actor: { avatar_url: 'https://avatars.githubusercontent.com/u/12345678?v=4' }
+                },
+                {
+                    type: 'IssuesEvent',
+                    repo: { name: 'JosephNdungu/devops-pipeline' },
+                    created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+                    actor: { avatar_url: 'https://avatars.githubusercontent.com/u/12345678?v=4' }
+                }
+            ];
+            
+            displayGitHubActivity(simulatedEvents);
+        }
+        
+        function displayGitHubActivity(events) {
+            const container = document.getElementById('githubActivity');
+            container.innerHTML = '';
+            
+            events.slice(0, 3).forEach(event => {
+                const eventType = getEventType(event.type);
+                const repoName = event.repo.name.split('/')[1];
+                const timeAgo = getTimeAgo(event.created_at);
+                
+                const eventElement = document.createElement('div');
+                eventElement.className = 'github-event';
+                eventElement.innerHTML = `
+                    <img src="${event.actor.avatar_url}" alt="GitHub Avatar" class="github-avatar">
+                    <div>
+                        <div class="github-event-type">${eventType}</div>
+                        <div class="github-repo">${repoName}</div>
+                        <div class="github-time">${timeAgo}</div>
+                    </div>
+                `;
+                
+                container.appendChild(eventElement);
+            });
+        }
+        
+        function getEventType(type) {
+            const types = {
+                'PushEvent': 'Pushed to',
+                'CreateEvent': 'Created repository',
+                'IssuesEvent': 'Opened issue',
+                'PullRequestEvent': 'Opened pull request'
+            };
+            return types[type] || type;
+        }
+        
+        function getTimeAgo(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = now - date;
+            
+            const minutes = Math.floor(diff / (1000 * 60));
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            if (minutes < 60) return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
+            if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+            return `${days} day${days === 1 ? '' : 's'} ago`;
+        }
+        
+        // Initialize GitHub activity
+        fetchGitHubActivity();
+
+        // PDF Generation for Portfolio
+        document.getElementById('pdfLink').addEventListener('click', async (e) => {
+            e.preventDefault();
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Add title
+            doc.setFontSize(22);
+            doc.setTextColor(37, 99, 235);
+            doc.text(document.getElementById('name').textContent, 105, 20, { align: 'center' });
+            
+            // Add contact info
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            const contactBar = document.querySelector('.contact-bar');
+            const contacts = Array.from(contactBar.children)
+                .filter(el => el.id !== 'pdfLink')
+                .map(el => el.textContent.replace(/\s+/g, ' ').trim());
+            doc.text(contacts.join(' | '), 105, 28, { align: 'center' });
+            
+            // Add sections
+            let yPos = 40;
+            const sections = ['about', 'skills', 'projects', 'services', 'experience', 'education'];
+            
+            for (const sectionId of sections) {
+                const section = document.getElementById(sectionId);
+                const title = section.querySelector('h2').textContent;
+                const content = section.textContent.replace(/\s+/g, ' ').replace(title, '').trim();
+                
+                // Add section title
+                doc.setFontSize(16);
+                doc.setTextColor(37, 99, 235);
+                doc.text(title, 14, yPos);
+                yPos += 8;
+                
+                // Add section content
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                const splitText = doc.splitTextToSize(content, 180);
+                doc.text(splitText, 14, yPos);
+                yPos += splitText.length * 6 + 10;
+                
+                // Add new page if needed
+                if (yPos > 260) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+            }
+            
+            // Save the PDF
+            doc.save('Joseph_Ndungu_Portfolio.pdf');
+        });
+
+        // CV Template Downloads
+        document.getElementById('cvDownload').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert(currentLang === 'en' 
+                ? 'Word template download would start here. In a real implementation, this would link to your actual Word template.' 
+                : 'Upakuaji wa kiolezo cha Word ungeanza hapa. Katika utekelezaji halisi, hii ingeunganisha kwa kiolezo chako halisi cha Word.');
+        });
+
+        document.getElementById('cvDownloadPdf').addEventListener('click', (e) => {
+            e.preventDefault();
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Add CV content
+            doc.setFontSize(22);
+            doc.setTextColor(37, 99, 235);
+            doc.text(document.getElementById('name').textContent, 105, 20, { align: 'center' });
+            
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text("Full-Stack Developer & DevOps Engineer | Nairobi, Kenya", 105, 28, { align: 'center' });
+            
+            let yPos = 40;
+            
+            // Add sections
+            const cvSections = document.querySelectorAll('.cv-section');
+            cvSections.forEach(section => {
+                const title = section.querySelector('.cv-section-title').textContent;
+                const content = section.textContent.replace(title, '').trim();
+                
+                doc.setFontSize(16);
+                doc.setTextColor(37, 99, 235);
+                doc.text(title, 14, yPos);
+                yPos += 8;
+                
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                const splitText = doc.splitTextToSize(content, 180);
+                doc.text(splitText, 14, yPos);
+                yPos += splitText.length * 6 + 15;
+                
+                if (yPos > 260) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+            });
+            
+            doc.save('Joseph_Ndungu_CV.pdf');
+        });
+
+        // Contact form handling
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('nameInput').value,
+                email: document.getElementById('emailInput').value,
+                subject: document.getElementById('subjectInput').value,
+                message: document.getElementById('messageInput').value,
+                service: document.getElementById('serviceInput').value
+            };
+            
+            // Here you would typically send the data to a server
+            console.log('Form submitted:', formData);
+            
+            // Show success message
+            alert(currentLang === 'en' 
+                ? 'Thank you for your message! I will get back to you soon.' 
+                : 'Asante kwa ujumbe wako! Nitawasiliana nawe hivi karibuni.');
+            
+            // Reset form
+            document.getElementById('contactForm').reset();
+        });
+
+        // Newsletter form handling
+        document.getElementById('newsletterForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('newsletterName').value,
+                email: document.getElementById('newsletterEmail').value,
+                interest: document.getElementById('newsletterInterest').value
+            };
+            
+            // Here you would typically send the data to a newsletter service
+            console.log('Newsletter subscription:', formData);
+            
+            // Show success message
+            alert(currentLang === 'en' 
+                ? 'Thank you for subscribing to my newsletter!' 
+                : 'Asante kwa kujiandikisha kwenye barua pepe yangu!');
+            
+            // Reset form
+            document.getElementById('newsletterForm').reset();
+        });
+
+        // Animate skill bars on scroll into view
+        const skillBars = document.querySelectorAll('.skill-level');
+        
+        const animateSkillBars = () => {
+            skillBars.forEach(bar => {
+                const percentage = bar.parentElement.previousElementSibling.lastElementChild.textContent;
+                if (isElementInViewport(bar)) {
+                    bar.style.width = percentage;
+                }
+            });
+        };
+        
+        const isElementInViewport = (el) => {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        };
+        
+        window.addEventListener('scroll', animateSkillBars);
+        window.addEventListener('load', animateSkillBars);
+    </script>
+</body>
+</html>
