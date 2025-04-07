@@ -7,7 +7,7 @@
 ---
 
 ## 🚀 Live Site
-[🌐 codedbyjoey.com](https://codedbyjoey.com)
+[🌐 codedbyjoey.com](https://codedbyjoey-d1ule9i0u-joseph-ndungu-s-projects.vercel.app/)
 
 ---
 
